@@ -24,7 +24,33 @@ layout: default
     <pre><code>
     sns.heatmap(data.isnull())    
     </code></pre>
-
     <img src="images/isnull_heatmap.png" alt="isnull_heatmap">
+
+    <p>Getting the top 7 movies by number of votes:</p>
+    <pre><code>
+    top_voted = data.sort_values(['No_of_Votes'], ascending = False)
+    top_voted[['Series_Title','No_of_Votes']][:7]
+    </code></pre>
+    <pre><code>
+    fig, ax = plt.subplots(figsize=(15,5))
+    ax.set(facecolor='black')
+    sns.barplot(x=top_voted['Series_Title'][:7], y=top_voted['No_of_Votes'][:7], palette='hls', edgecolor='white', linewidth=2)
+    plt.title('Top 7 Movies By Votes', fontweight='bold', fontsize=15)
+    plt.xlabel('Movie', fontweight='bold',fontsize='15')
+    plt.ylabel('Votes', fontweight='bold',fontsize='15')
+    
+    plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
+    
+    for p in ax.patches:
+        x = p.get_x() + p.get_width() / 2
+        y = p.get_y() + p.get_height() / 1.2
+        value = '{:.0f}'.format(p.get_height())
+        ax.text(x, y, value, ha="center", color='white', fontweight='bold', fontsize='15')
+    
+    plt.show()
+    </code></pre>
+    <img src='images/top7_by_votes.png' alt='top7_by_votes'>
+    <img src='images/top7_by_votes_vis.png' alt='top7_by_votes_vis'>
+    
 
 </body>

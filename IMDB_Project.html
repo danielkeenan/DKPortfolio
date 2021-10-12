@@ -7,8 +7,24 @@ layout: default
     <h2>Exploring a Movie Dataset from IMDB</h2>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos natus reprehenderit iste non, voluptates, inventore corporis veritatis incidunt neque laudantium quod rem ex quam exercitationem delectus ipsam voluptatem? Dolorum, modi!</p>
     
-    <pre><code>import pandas as pd
+    <p>Import statements:</p>
+    <pre><code>
+    import pandas as pd
     import numpy as np
     import matplotlib.pyplot as plt
-    import seaborn as sns</code></pre>
+    import seaborn as sns
+    </code></pre>
+
+    <p>Reading in the IMDB dataset:</p>
+    <pre><code>
+    data = pd.read_csv('imdb_top_1000.csv')
+    </code></pre>
+
+    <p>Visualising null values</p>
+    <pre><code>
+    sns.heatmap(data.isnull())    
+    </code></pre>
+
+    <img src="/images/isnull_heatmap.png" alt="isnull_heatmap">
+
 </body>

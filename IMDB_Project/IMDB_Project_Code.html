@@ -7,8 +7,9 @@ layout: default
     <h2>Exploring a Movie Dataset from IMDB</h2>
     <p>In this project, I have performed EDA to explore an IMDB dataset of movies. 
         The aim of this project was to showcase my abilities with pandas and matplotlib, 
-        as well as show best practices in EDA.</h3>
-    
+        as well as show best practices in EDA.</p>
+    <p><a href="/DKPortfolio/IMDB_Project/IMDB_Project.html"></a>Whole Project</p>
+    <p><a href="/DKPortfolio/IMDB_Project/IMDB_Project_Vis.html"></a>Just Visualisations</p>
     <p></p>
     <h3>Import statements:</h3>
     <pre><code>
@@ -27,7 +28,6 @@ layout: default
     <pre><code>
         sns.heatmap(data.isnull())    
     </code></pre>
-    <img src="images/isnull_heatmap.png" alt="isnull_heatmap">
 
     <h3>Getting the top 7 movies by number of votes:</h3>
     <pre><code>
@@ -52,8 +52,6 @@ layout: default
         
         plt.show()
     </code></pre>
-    <img src='images/top7_by_votes.png' alt='top7_by_votes'>
-    <img src='images/top7_by_votes_vis.png' alt='top7_by_votes_vis'>
 
     <h3>Getting the top grossing movies:</h3>
     <pre><code>
@@ -78,8 +76,6 @@ layout: default
             
         plt.show()
     </code></pre>
-    <img src='images/top7_by_gross.png' alt='top7_by_gross'>
-    <img src='images/top7_by_gross_vis.png' alt='top7_by_gross_vis'>
     
     <h3>Getting the top 7 directors by movie votes</h3>
     <pre><code>
@@ -105,8 +101,6 @@ layout: default
 
         plt.show()
     </code></pre>
-    <img src='images/top7_dirs.png' alt='top7_dirs'>
-    <img src='images/top7_dirs_vis.png' alt='top7_dirs_vis'>
 
     <h3>Number of movies by certificate:</h3>
     <pre><code>
@@ -126,7 +120,6 @@ layout: default
             
         plt.show()
     </code></pre>
-    <img src='images/movies_by_cert_vis.png', alt='movies_by_cert_vis'>
 
     <h3>Top Genres of movies</h3>
     <pre><code>
@@ -160,11 +153,8 @@ layout: default
         
         plt.show()
     </code></pre>
-    <img src='images/top10_genres.png', alt='top10_genres'>
-    <p></p>
-    <img src='images/top10_genres_vis.png', alt='top10_genres_vis'>
     
-    <h3Top 10 rated movies:</h3>
+    <h3>Top 10 rated movies:</h3>
     <pre><code>
         top_rated_movie = data.groupby(['Series_Title'])['IMDB_Rating'].sum().reset_index()
         top_rated_movie.columns = ['Movie','Rating']
@@ -183,6 +173,4 @@ layout: default
         plt.ylim([8.5, 9.5])
         plt.show()
     </code></pre>
-    <img src='images/top10_movies.png', alt='top10_movies'>
-    <img src='images/top10_movies_vis.png', alt='top10_movies_vis'>
 </body>

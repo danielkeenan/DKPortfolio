@@ -7,9 +7,10 @@ layout: default
     <h2>Exploring a Movie Dataset from IMDB</h2>
     <p>In this project, I have performed EDA to explore an IMDB dataset of movies. 
         The aim of this project was to showcase my abilities with pandas and matplotlib, 
-        as well as show best practices in EDA.</p>
+        as well as show best practices in EDA.</h3>
     
-    <p>Import statements:</p>
+    <p></p>
+    <h3>Import statements:</h3>
     <pre><code>
         import pandas as pd
         import numpy as np
@@ -17,18 +18,18 @@ layout: default
         import seaborn as sns
     </code></pre>
 
-    <p>Reading in the IMDB dataset:</p>
+    <h3>Reading in the IMDB dataset:</h3>
     <pre><code>
         data = pd.read_csv('imdb_top_1000.csv')
     </code></pre>
 
-    <p>Visualising null values:</p>
+    <h3>Visualising null values:</h3>
     <pre><code>
         sns.heatmap(data.isnull())    
     </code></pre>
     <img src="images/isnull_heatmap.png" alt="isnull_heatmap">
 
-    <p>Getting the top 7 movies by number of votes:</p>
+    <h3>Getting the top 7 movies by number of votes:</h3>
     <pre><code>
         top_voted = data.sort_values(['No_of_Votes'], ascending = False)
         top_voted[['Series_Title','No_of_Votes']][:7]
@@ -54,7 +55,7 @@ layout: default
     <img src='images/top7_by_votes.png' alt='top7_by_votes'>
     <img src='images/top7_by_votes_vis.png' alt='top7_by_votes_vis'>
 
-    <p>Getting the top grossing movies:</p>
+    <h3>Getting the top grossing movies:</h3>
     <pre><code>
         top_gross = data.sort_values(['Gross'], ascending=False)
         top_gross[['Series_Title','Gross']][:7]
@@ -80,7 +81,7 @@ layout: default
     <img src='images/top7_by_gross.png' alt='top7_by_gross'>
     <img src='images/top7_by_gross_vis.png' alt='top7_by_gross_vis'>
     
-    <p>Getting the top 7 directors by movie votes</p>
+    <h3>Getting the top 7 directors by movie votes</h3>
     <pre><code>
         top_gross_dir = data.groupby(['Director'])['No_of_Votes'].sum().reset_index()
         top_gross_dir.columns = ['Director','Cumulative Movie Votes']
@@ -107,7 +108,7 @@ layout: default
     <img src='images/top7_dirs.png' alt='top7_dirs'>
     <img src='images/top7_dirs_vis.png' alt='top7_dirs_vis'>
 
-    <p>Number of movies by certificate:</p>
+    <h3>Number of movies by certificate:</h3>
     <pre><code>
         fig, ax = plt.subplots(figsize=(10,6))
         ax.set(facecolor='black')
@@ -127,7 +128,7 @@ layout: default
     </code></pre>
     <img src='images/movies_by_cert_vis.png', alt='movies_by_cert_vis'>
 
-    <p>Top Genres of movies</p>
+    <h3>Top Genres of movies</h3>
     <pre><code>
         genre=[]
         for x in data['Genre']:
@@ -160,9 +161,10 @@ layout: default
         plt.show()
     </code></pre>
     <img src='images/top10_genres.png', alt='top10_genres'>
+    <p></p>
     <img src='images/top10_genres_vis.png', alt='top10_genres_vis'>
     
-    <p>Top 10 rated movies:</p>
+    <h3Top 10 rated movies:</h3>
     <pre><code>
         top_rated_movie = data.groupby(['Series_Title'])['IMDB_Rating'].sum().reset_index()
         top_rated_movie.columns = ['Movie','Rating']

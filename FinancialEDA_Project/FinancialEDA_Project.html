@@ -1,0 +1,124 @@
+---
+layout: default
+---
+
+<body>
+    <h1>Financial Dataset Analysis Project</h1>
+    <h2>Exploring a Company's Financial Data</h2>
+    <p>In this project, I have performed EDA to explore a company's finances over a year. 
+        The aim of this project was to showcase my abilities with pandas and visualisation.</p>
+    <h3><a href="/DKPortfolio">Home</a></h3>
+    <p><a href="/DKPortfolio/FinancialEDA_Project/FinancialEDA_Project_Vis.html">Just Visualisations</a></p>
+    <p><a href="/DKPortfolio/FinancialEDA_Project/FinancialEDA_Project_Code.html">Just Code</a></p>
+    <p></p>
+    <h3>Import statements:</h3>
+    <pre><code>
+        import pandas as pd
+        import numpy as np
+        from sklearn import preprocessing
+        import matplotlib.pyplot as plt
+        plt.rc('font', size=14)
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.model_selection import train_test_split
+        import seaborn as sns
+        sns.set(style='white')
+        sns.set(style='whitegrid', color_codes=True)
+    </code></pre>
+
+    <h3>Reading in the dataset:</h3>
+    <pre><code>
+        data = pd.read_csv('enterprise.csv')
+        data.head()
+    </code></pre>
+    <img src='images/read_csv.png'>
+    
+    <h3>Checking the datatypes and null values:</h3>
+    <pre><code>
+        data.info()
+    </code></pre>
+    <img src='images/info.png'>
+    
+    <h3>Summary statistics:</h3>
+    <pre><code>
+        data.describe()
+    </code></pre>
+    <img src='images/describe.png'>
+
+    <h3>Variable correlations:</h3>
+    <pre><code>
+        data.corr()
+    </code></pre>
+    <pre><code>
+        sns.heatmap(data.corr(),annot=True)
+    </code></pre>
+    <img src='images/corr.png'>
+    <img src='images/corr_heatmap.png'>
+    
+    <h3>Frequency Histograms for each column:</h3>
+    <pre><code>
+        %matplotlib inline
+        data.hist(bins=50, figsize=(20,15))
+        plt.show()
+    </code></pre>
+    <img src='images/freq_hist.png'>
+
+    <h3>Correlation Scatterplots:</h3>
+    <pre><code>
+        sns.pairplot(data)
+    </code></pre>
+    <img src='images/scatter.png'>
+
+    <h3>Area plots for the frequency of each column:</h3>
+    <pre><code>
+        sns.set(style='dark')
+        sns.set(style='darkgrid', color_codes=True)
+        plt.rcParams["figure.figsize"] = (8,4)
+        
+        data.revenues.plot.area(color='tab:blue',stacked=None)
+        plt.title('Histogram of Revenues')
+        plt.xlabel('Revenues')
+        plt.ylabel('Frequency')
+    </code></pre>
+    <pre><code>
+        data.depreciation.plot.area(color='tab:green',stacked=None)
+        plt.title('Histogram of Depreciation')
+        plt.xlabel('Depreciation')
+        plt.ylabel('Frequency')
+    </code></pre>
+    <pre><code>
+        data.ebit.plot.area(color='tab:orange',stacked=None)
+        plt.title('Histogram of EBIT')
+        plt.xlabel('EBIT')
+        plt.ylabel('Frequency')
+    </code></pre>
+    <pre><code>
+        data.capex.plot.area(color='tab:red',stacked=None)
+        plt.title('Histogram of CAPEX')
+        plt.xlabel('CAPEX')
+        plt.ylabel('Frequency')
+    </code></pre>
+    <pre><code>
+        data.ncwc.plot.area(color='tab:pink',stacked=None)
+        plt.title('Histogram of Non-Cash WC')
+        plt.xlabel('Non-Cash WC')
+        plt.ylabel('Frequency')
+    </code></pre>
+    <pre><code>
+        data.bv.plot.area(color='tab:gray',stacked=None)
+        plt.title('Histogram of BV')
+        plt.xlabel('BV')
+        plt.ylabel('Frequency')
+    </code></pre>
+    <pre><code>
+        data.y.plot.area(color='blue',stacked=None)
+        plt.title('Histogram of EV')
+        plt.xlabel('EV')
+        plt.ylabel('Frequency')
+    </code></pre>
+    <img src='images/plot1.png'>
+    <img src='images/plot2.png'>
+    <img src='images/plot3.png'>
+    <img src='images/plot4.png'>
+    <img src='images/plot5.png'>
+    <img src='images/plot6.png'>
+    <img src='images/plot7.png'>

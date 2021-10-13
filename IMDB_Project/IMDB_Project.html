@@ -30,7 +30,7 @@ layout: default
     </code></pre>
     <img src="images/isnull_heatmap.png" alt="isnull_heatmap">
 
-    <h3>Getting the top 7 movies by number of votes:</h3>
+    <h3>Top 7 movies by number of votes:</h3>
     <pre><code>
         top_voted = data.sort_values(['No_of_Votes'], ascending = False)
         top_voted[['Series_Title','No_of_Votes']][:7]
@@ -56,7 +56,7 @@ layout: default
     <img src='images/top7_by_votes.png' alt='top7_by_votes'>
     <img src='images/top7_by_votes_vis.png' alt='top7_by_votes_vis'>
 
-    <h3>Getting the top grossing movies:</h3>
+    <h3>Top grossing movies:</h3>
     <pre><code>
         top_gross = data.sort_values(['Gross'], ascending=False)
         top_gross[['Series_Title','Gross']][:7]
@@ -82,7 +82,7 @@ layout: default
     <img src='images/top7_by_gross.png' alt='top7_by_gross'>
     <img src='images/top7_by_gross_vis.png' alt='top7_by_gross_vis'>
     
-    <h3>Getting the top 7 directors by movie votes</h3>
+    <h3>Top 7 directors by movie votes</h3>
     <pre><code>
         top_gross_dir = data.groupby(['Director'])['No_of_Votes'].sum().reset_index()
         top_gross_dir.columns = ['Director','Cumulative Movie Votes']

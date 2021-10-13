@@ -29,7 +29,7 @@ layout: default
         sns.heatmap(data.isnull())    
     </code></pre>
 
-    <h3>Getting the top 7 movies by number of votes:</h3>
+    <h3>Top 7 movies by number of votes:</h3>
     <pre><code>
         top_voted = data.sort_values(['No_of_Votes'], ascending = False)
         top_voted[['Series_Title','No_of_Votes']][:7]
@@ -53,7 +53,7 @@ layout: default
         plt.show()
     </code></pre>
 
-    <h3>Getting the top grossing movies:</h3>
+    <h3>Top grossing movies:</h3>
     <pre><code>
         top_gross = data.sort_values(['Gross'], ascending=False)
         top_gross[['Series_Title','Gross']][:7]
@@ -77,7 +77,7 @@ layout: default
         plt.show()
     </code></pre>
     
-    <h3>Getting the top 7 directors by movie votes</h3>
+    <h3>Top 7 directors by movie votes</h3>
     <pre><code>
         top_gross_dir = data.groupby(['Director'])['No_of_Votes'].sum().reset_index()
         top_gross_dir.columns = ['Director','Cumulative Movie Votes']

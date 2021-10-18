@@ -18,12 +18,14 @@ layout: default
         import seaborn as sns
         import datetime
     </code></pre>
+    <p></p>
     
     <h3>Reading in the dataset</h3>
     <pre><code>
         data = pd.read_csv('all_games.csv')
         data    
     </code></pre>
+    <p></p>
 
     <h3>Exploring the data</h3>
     <pre><code>
@@ -35,6 +37,7 @@ layout: default
     <pre><code>
         data[data.duplicated()]
     </code></pre>
+    <p></p>
 
     <h3>Checking for and dealing with null data</h3>
     <pre><code>
@@ -57,6 +60,7 @@ layout: default
     <pre><code>
         data[data['meta_score']=='tbd']
     </code></pre>
+    <p></p>
 
     <h3>Top 10 Video Games by Meta Score</h3>
     <pre><code>
@@ -73,6 +77,7 @@ layout: default
         plt.xlabel('Meta Score', fontsize=14)
         plt.ylabel('Name', fontsize=14)
     </code></pre>
+    <p></p>
     
     <h3>Distribution of Meta Scores</h3>
     <pre><code>
@@ -83,7 +88,7 @@ layout: default
         plt.ylabel('Frequency', fontsize=14)
         plt.show()
     </code></pre>
-    <img src='images/meta_dist.png'>
+    <p></p>
 
     <h3>Top 10 Video Games by User Review</h3>
     <pre><code>
@@ -101,6 +106,7 @@ layout: default
         plt.xlabel('User Review Score', fontsize=14)
         plt.ylabel('Name', fontsize=14)
     </pre>
+    <p></p>
     
     <h3>Distribution of User Review Scores</h3>
     <pre><code>
@@ -111,8 +117,8 @@ layout: default
         plt.ylabel('Frequency', fontsize=14)
         plt.show()
     </code></pre>
-    <img src='images/user_dist.png'>
-    
+    <p></p>
+
     <h3>Number of Video Games by Platform</h3>
     <pre><code>
         data['platform'].value_counts()
@@ -131,6 +137,7 @@ layout: default
             value = '{}'.format(p.get_height())
             ax.text(x, y, value, fontsize=12)
     </code></pre>
+    <p></p>
 
     <h3>Number of Video Games by Release Year</h3>
     <pre><code>
@@ -150,6 +157,7 @@ layout: default
             value = '{}'.format(p.get_width())
             ax.text(x, y, value, fontsize=12)
     </code></pre>
+    <p></p>
 
     <h3>Number of Video Games by Release Month</h3>
     <pre><code>

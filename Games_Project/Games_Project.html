@@ -18,6 +18,7 @@ layout: default
         import seaborn as sns
         import datetime
     </code></pre>
+    <p></p>
     
     <h3>Reading in the dataset</h3>
     <pre><code>
@@ -25,6 +26,7 @@ layout: default
         data    
     </code></pre>
     <img src='images/read.png'>
+    <p></p>
     
     <h3>Exploring the data</h3>
     <pre><code>
@@ -39,13 +41,13 @@ layout: default
         data[data.duplicated()]
     </code></pre>
     <img src='images/nodupe.png'>
+    <p></p>
     
     <h3>Checking for and dealing with null data</h3>
     <pre><code>
         sns.heatmap(data.isnull())
     </code></pre>
     <img src='images/heatmap.png'>
-    
     <pre><code>
         data.isnull().sum()
     </code></pre>
@@ -64,6 +66,7 @@ layout: default
     <pre><code>
         data[data['meta_score']=='tbd']
     </code></pre>
+    <p></p>
 
     <h3>Top 10 Video Games by Meta Score</h3>
     <pre><code>
@@ -82,6 +85,7 @@ layout: default
         plt.ylabel('Name', fontsize=14)
     </code></pre>
     <img src='images/top_meta_vis.png'>
+    <p></p>
     
     <h3>Distribution of Meta Scores</h3>
     <pre><code>
@@ -93,6 +97,7 @@ layout: default
         plt.show()
     </code></pre>
     <img src='images/meta_dist.png'>
+    <p></p>
 
     <h3>Top 10 Video Games by User Review</h3>
     <pre><code>
@@ -112,6 +117,7 @@ layout: default
         plt.ylabel('Name', fontsize=14)
     </pre>
     <img src='images/top_user_vis.png'>
+    <p></p>
 
     <h3>Distribution of User Review Scores</h3>
     <pre><code>
@@ -123,6 +129,7 @@ layout: default
         plt.show()
     </code></pre>
     <img src='images/user_dist.png'>
+    <p></p>
 
     <h3>Number of Video Games by Platform</h3>
     <pre><code>
@@ -144,6 +151,7 @@ layout: default
             ax.text(x, y, value, fontsize=12)
     </code></pre>
     <img src='images/num_platform_vis.png'>
+    <p></p>
 
     <h3>Number of Video Games by Release Year</h3>
     <pre><code>
@@ -165,6 +173,7 @@ layout: default
             ax.text(x, y, value, fontsize=12)
     </code></pre>
     <img src='images/num_release_year_vis.png'>
+    <p></p>
 
     <h3>Number of Video Games by Release Month</h3>
     <pre><code>

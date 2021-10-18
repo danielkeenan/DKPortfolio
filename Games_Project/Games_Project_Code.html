@@ -1,0 +1,159 @@
+---
+layout: default
+---
+
+<body>
+    <h1>Video Games Analysis Project</h1>
+    <h2>Exploring a Dataset of Video Games and their Rankings </h2>
+    <p>In this project, I have explored a dataset relating to video games and their score metrics.</p>
+    <h3><a href="/DKPortfolio">Home</a></h3>
+    <p><a href="/DKPortfolio/Games_Project/Games_Project.html">Whole Project</a></p>
+    <p><a href="/DKPortfolio/Games_Project/Games_Project_Vis.html">Just Visualisations</a></p>
+    <p></p>
+    <h3>Import statements:</h3>
+    <pre><code>
+        import pandas as pd
+        import numpy as np
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        import datetime
+    </code></pre>
+    
+    <h3>Reading in the dataset</h3>
+    <pre><code>
+        data = pd.read_csv('all_games.csv')
+        data    
+    </code></pre>
+
+    <h3>Exploring the data</h3>
+    <pre><code>
+        data.shape
+    </code></pre>
+    <pre><code>
+        data.info()
+    </code></pre>
+    <pre><code>
+        data[data.duplicated()]
+    </code></pre>
+
+    <h3>Checking for and dealing with null data</h3>
+    <pre><code>
+        sns.heatmap(data.isnull())
+    </code></pre>
+    <pre><code>
+        data.isnull().sum()
+    </code></pre>
+    <pre><code>
+        data[data['summary'].isnull()]
+    </code></pre>
+    <pre><code>
+        data = data.drop('summary', axis=1)
+        data
+    </code></pre>
+    <pre><code>
+        data = data.drop(data[data['user_review']=='tbd'].index)
+        data
+    </code></pre>
+    <pre><code>
+        data[data['meta_score']=='tbd']
+    </code></pre>
+
+    <h3>Top 10 Video Games by Meta Score</h3>
+    <pre><code>
+        top_meta_score = data.sort_values(['meta_score'], ascending = False)
+        top_meta_score[['name','meta_score']][:10]
+    </code></pre>
+    <pre><code>
+        sns.set(style='darkgrid', color_codes=True)
+
+        fig, ax = plt.subplots(figsize=(10,5))
+        sns.barplot(x=top_meta_score['meta_score'][:10], y=top_meta_score['name'][:10], orient = 'h', palette='flare')
+        plt.xlim(95,100)
+        plt.title('Top 10 Games by Meta Score', fontsize=16)
+        plt.xlabel('Meta Score', fontsize=14)
+        plt.ylabel('Name', fontsize=14)
+    </code></pre>
+
+    <h3>Top 10 Video Games by User Review</h3>
+    <pre><code>
+        data['user_review'] = data['user_review'].astype(np.float)
+    </code></pre>
+    <pre><code>
+        top_user_score = data.sort_values(['user_review'], ascending=False)
+        top_user_score[['name','user_review']][:10]
+    </code></pre>
+    <pre><code>
+        fig, ax = plt.subplots(figsize=(10,5))
+        sns.barplot(x=top_user_score['user_review'][:10], y=top_user_score['name'][:10], orient='h', palette='crest')
+        plt.xlim(9.5, 9.8)
+        plt.title('Top 10 Games by User Review', fontsize=16)
+        plt.xlabel('User Review Score', fontsize=14)
+        plt.ylabel('Name', fontsize=14)
+    </pre>
+
+    <h3>Number of Video Games by Platform</h3>
+    <pre><code>
+        data['platform'].value_counts()
+    </code></pre>
+    <pre><code>
+        fig, ax = plt.subplots(figsize=(15,10))
+        sns.countplot(x=data['platform'], order=data['platform'].value_counts().index, palette='pastel')
+        plt.xticks(rotation=90)
+        plt.title('Number of Games by Platform',fontsize=16)
+        plt.xlabel('Platform',fontsize=14)
+        plt.ylabel('Count',fontsize=14)
+        
+        for p in ax.patches:
+            x = p.get_x() + p.get_width() - 0.7
+            y = p.get_y() + p.get_height() + 40
+            value = '{}'.format(p.get_height())
+            ax.text(x, y, value, fontsize=12)
+    </code></pre>
+
+    <h3>Number of Video Games by Release Year</h3>
+    <pre><code>
+        data['release_year'] = pd.DatetimeIndex(data['release_date']).year
+        data
+    </code></pre>
+    <pre><code>
+        fig, ax = plt.subplots(figsize=(15,10))
+        sns.countplot(y=data['release_year'], order=data['release_year'].value_counts().index, orient='h', palette='pastel')
+        plt.title('Number of Games by Year', fontsize=16)
+        plt.xlabel('Count', fontsize=14)
+        plt.ylabel('Release Year', fontsize=14)
+        
+        for p in ax.patches:
+            x = p.get_x() + p.get_width() + 2
+            y = p.get_y() + p.get_height() - 0.2
+            value = '{}'.format(p.get_width())
+            ax.text(x, y, value, fontsize=12)
+    </code></pre>
+
+    <h3>Number of Video Games by Release Month</h3>
+    <pre><code>
+        data['release_month'] = pd.DatetimeIndex(data['release_date']).month_name()
+        data
+    </code></pre>
+    <pre><code>
+        from collections import Counter
+        count = Counter(data['release_month'])
+        count = count.most_common()
+        count
+    </code></pre>
+    <pre><code>
+        by_month = pd.DataFrame(count, columns=['Month', 'Count'])
+        by_month
+    </code></pre>
+    <pre><code>
+        fig, ax = plt.subplots(figsize=(14,5))
+        sns.barplot(x=by_month['Month'], y=by_month['Count'], palette='pastel')
+        plt.title('Count of Games by Release Month',fontsize=16)
+        plt.xlabel('Release Month',fontsize=14)
+        plt.ylabel('Count',fontsize=14)
+        
+        for p in ax.patches:
+            x = p.get_x() + p.get_width() - 0.5
+            y = p.get_y() + p.get_height() / 2
+            value = '{:.0f}'.format(p.get_height())
+            ax.text(x, y, value, fontsize=22, fontweight='bold', rotation=90, color='gray')
+    </code></pre>

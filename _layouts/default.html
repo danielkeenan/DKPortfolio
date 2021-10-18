@@ -40,6 +40,13 @@
           {{ content }}
         </section>
 
+        <div class="container-md" role="main">
+            <div class="row">
+              <div class="col-xl-8 offset-xl-2 col-lg-10 offset-lg-1">
+              <div class="col-xl-10 offset-xl-1 col-lg-10 offset-lg-1">
+                {{ content }}
+                {% include comments.html %}
+              </div>
         <footer>
         {% if site.github.is_project_page %}
           {{ site.title | default: site.github.repository_name }} is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a><br>

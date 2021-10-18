@@ -82,6 +82,17 @@ layout: default
         plt.ylabel('Name', fontsize=14)
     </code></pre>
     <img src='images/top_meta_vis.png'>
+    
+    <h3>Distribution of Meta Scores</h3>
+    <pre><code>
+        fig, ax = plt.subplots(figsize=(10,5))
+        plt.hist(x=data['meta_score'], bins=33, facecolor='#5bd487', edgecolor='#139c44')
+        plt.title('Distribution of Meta Scores', fontsize=16)
+        plt.xlabel('Distribution', fontsize=14)
+        plt.ylabel('Frequency', fontsize=14)
+        plt.show()
+    </code></pre>
+    <img src='images/meta_dist.png'>
 
     <h3>Top 10 Video Games by User Review</h3>
     <pre><code>
@@ -101,6 +112,17 @@ layout: default
         plt.ylabel('Name', fontsize=14)
     </pre>
     <img src='images/top_user_vis.png'>
+
+    <h3>Distribution of User Review Scores</h3>
+    <pre><code>
+        fig, ax = plt.subplots(figsize=(10,5))
+        plt.hist(x=data['user_review'], bins=33, facecolor='#5bd487', edgecolor='#139c44')
+        plt.title('Distribution of User Reviews', fontsize=16)
+        plt.xlabel('Distribution', fontsize=14)
+        plt.ylabel('Frequency', fontsize=14)
+        plt.show()
+    </code></pre>
+    <img src='images/user_dist.png'>
 
     <h3>Number of Video Games by Platform</h3>
     <pre><code>

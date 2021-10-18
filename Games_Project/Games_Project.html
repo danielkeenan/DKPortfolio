@@ -11,6 +11,7 @@ layout: default
     <p><a href="/DKPortfolio/Games_Project/Games_Project_Code.html">Just Code</a></p>
     <p></p>
     <h3>Import statements:</h3>
+    <p>These are the packages needed for this project.</p>
     <pre><code>
         import pandas as pd
         import numpy as np
@@ -21,6 +22,7 @@ layout: default
     <p></p>
     
     <h3>Reading in the dataset</h3>
+    <p>The dataset is read in from a CSV file.</p>
     <pre><code>
         data = pd.read_csv('all_games.csv')
         data    
@@ -29,6 +31,7 @@ layout: default
     <p></p>
     
     <h3>Exploring the data</h3>
+    <p>The dataset is explored, checking its shape, datatypes, and checking for duplicated rows.</p>
     <pre><code>
         data.shape
     </code></pre>
@@ -44,6 +47,8 @@ layout: default
     <p></p>
     
     <h3>Checking for and dealing with null data</h3>
+    <p>Looking for null data using a heatmap and the 'isnull()' command, and then dealing with it by dropping the 'summary' column.</p>
+    <p>Also removing rows where the meta_score is 'tbd', as this is essentially missing data</p>
     <pre><code>
         sns.heatmap(data.isnull())
     </code></pre>
@@ -69,6 +74,7 @@ layout: default
     <p></p>
 
     <h3>Top 10 Video Games by Meta Score</h3>
+    <p>Finding the top 10 video games based on high meta_score values, displayed using a barplot.</p>
     <pre><code>
         top_meta_score = data.sort_values(['meta_score'], ascending = False)
         top_meta_score[['name','meta_score']][:10]
@@ -88,6 +94,7 @@ layout: default
     <p></p>
     
     <h3>Distribution of Meta Scores</h3>
+    <p>Visualising the distribution of meta scores using a histogram.</p>
     <pre><code>
         fig, ax = plt.subplots(figsize=(10,5))
         plt.hist(x=data['meta_score'], bins=33, facecolor='#5bd487', edgecolor='#139c44')
@@ -100,6 +107,7 @@ layout: default
     <p></p>
 
     <h3>Top 10 Video Games by User Review</h3>
+    <p>Finding the top 10 video games based on high user_review values, displayed using a barplot.</p>
     <pre><code>
         data['user_review'] = data['user_review'].astype(np.float)
     </code></pre>
@@ -120,6 +128,7 @@ layout: default
     <p></p>
 
     <h3>Distribution of User Review Scores</h3>
+    <p>Visualising the distribution of user_reviews scores using a histogram.</p>
     <pre><code>
         fig, ax = plt.subplots(figsize=(10,5))
         plt.hist(x=data['user_review'], bins=33, facecolor='#5bd487', edgecolor='#139c44')
@@ -132,6 +141,7 @@ layout: default
     <p></p>
 
     <h3>Number of Video Games by Platform</h3>
+    <p>Finding the number of games released on each platform, visualised using a countplot.</p>
     <pre><code>
         data['platform'].value_counts()
     </code></pre>
@@ -154,6 +164,7 @@ layout: default
     <p></p>
 
     <h3>Number of Video Games by Release Year</h3>
+    <p>Finding the number of games released in each year, visualised using a countplot.</p>
     <pre><code>
         data['release_year'] = pd.DatetimeIndex(data['release_date']).year
         data
@@ -176,6 +187,7 @@ layout: default
     <p></p>
 
     <h3>Number of Video Games by Release Month</h3>
+    <p>Finding the number of games released in each month, visualised using a countplot.</p>
     <pre><code>
         data['release_month'] = pd.DatetimeIndex(data['release_date']).month_name()
         data

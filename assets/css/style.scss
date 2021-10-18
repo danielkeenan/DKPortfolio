@@ -2,11 +2,6 @@
 ---
 
 @import "{{ site.theme }}";
-body {
-    min-height: 100vh;
-    max-width: 1000px;
-    margin: 0 auto;
-}
 
 .inner {
     max-width: 125%;

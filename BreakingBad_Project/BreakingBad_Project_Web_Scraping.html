@@ -1,0 +1,130 @@
+---
+layout: default
+---
+
+<body>
+    <h1>Breaking Bad Project Part 1 - Web Scraping</h1>
+    <h2>Scraping the transcripts for Breaking Bad into a dataframe</h2>
+    <p>In this project, I have performed some web scraping in order to get the episode transcripts from Breaking Bad.</p>
+    <h3><a href="/DKPortfolio">Home</a></h3>
+    <p><a href="/DKPortfolio/BreakingBad_Project/BreakingBad_Project_Preprocessing.html">Part 2 - Preprocessing</a></p> 
+    <p><a href="/DKPortfolio/BreakingBad_Project/BreakingBad_Project_EDA.html">Part 3 - EDA</a></p> 
+    <p></p>
+
+    <h3>Import statements:</h3>
+    <pre><code>
+        from bs4 import BeautifulSoup
+        import requests
+        import pandas as pd
+    </code></pre>
+
+    <h3>Getting the link to each page on the episode transcripts list:</h3>
+    <pre><code>
+        html_page1 = requests.get('https://transcripts.foreverdreaming.org/viewforum.php?f=165')
+        html_page2 = requests.get('https://transcripts.foreverdreaming.org/viewforum.php?f=165&start=25')
+        html_page3 = requests.get('https://transcripts.foreverdreaming.org/viewforum.php?f=165&start=50')
+    </code></pre>
+
+    <h3>Scraping the content of each page:</h3>
+    <pre><code>
+        soup1 = BeautifulSoup(html_page1.content, 'html.parser')
+        soup2 = BeautifulSoup(html_page2.content, 'html.parser')
+        soup3 = BeautifulSoup(html_page3.content, 'html.parser')
+    </code></pre>
+    
+    <h3>Creating empty lists to store relevant content:</h3>
+    <pre><code>
+        ep_links = []
+        ep_titles = []
+    </code></pre>
+
+    <h3>Collecting the episode titles and links to each episode transcript:</h3>
+    <pre><code>
+        ep_list1 = soup1.findAll('td', class_ = 'topic-titles row2')
+
+        for i in ep_list1[2:]:
+            ep_links.append('https://transcripts.foreverdreaming.org/'+i.find('h3').find('a')['href'][2:])
+            ep_titles.append(i.text.strip())
+    </code></pre>
+    <pre><code>
+        ep_list2 = soup2.findAll('td', class_ = 'topic-titles row2')
+
+        for i in ep_list2[2:]:
+            ep_links.append('https://transcripts.foreverdreaming.org/'+i.find('h3').find('a')['href'][2:])
+            ep_titles.append(i.text.strip())
+    </code></pre>
+    <pre><code>
+        ep_list3 = soup3.findAll('td', class_ = 'topic-titles row2')
+
+        for i in ep_list3[2:]:
+            ep_links.append('https://transcripts.foreverdreaming.org/'+i.find('h3').find('a')['href'][2:])
+            ep_titles.append(i.text.strip())
+    </code></pre>
+    <img src = 'images/titles.png'>
+
+    <h3>Getting each individual characters transcript stats per episode:</h3>
+    <pre><code>
+        season = []
+        episode = []
+        character = []
+        line = []
+        
+        for i, link in enumerate(ep_links):
+            html_page = requests.get(ep_links[i])
+            soup = BeautifulSoup(html_page.content, 'html.parser')
+            for j in soup.find('div', class_ = 'postbody').findAll('p'):
+                if 'Walter' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Walter')
+                    line.append(j.text[8:])
+                elif 'Skyler' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Skyler')
+                    line.append(j.text[8:])
+                elif 'Marie' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Marie')
+                    line.append(j.text[7:])
+                elif 'Hank' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Hank')
+                    line.append(j.text[6:])
+                elif 'Jesse' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Jesse')
+                    line.append(j.text[7:])
+                elif 'Steve' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Steve')
+                    line.append(j.text[7:])        
+    </code></pre>
+
+    <h3>Putting the lists into a dataframe:</h3>
+    <pre><code>
+        df = pd.DataFrame()
+        df['Season'] = season
+        df['Episode'] = episode
+        df['Character'] = character
+        df['Line'] = line
+        df.head()
+    </code></pre>
+    <img src = 'images/character_stats.png'>
+
+    <h3>Dropping the last 3 seasons:</h3>
+    <pre><code>
+        df.drop(df[(df['Season'] == '3')].index, inplace=True)
+        df.drop(df[(df['Season'] == '4')].index, inplace=True)
+        df.drop(df[(df['Season'] == '5')].index, inplace=True)
+    </code></pre>
+    <img src = 'images/fixed_character_stats.png'>
+
+    <h3>Saving to a CSV file</h3>
+    <pre><code>
+        df.to_csv('Breaking_Bad_s1s2.csv', index=False)
+    </code></pre>

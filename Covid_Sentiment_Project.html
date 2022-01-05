@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <title>Daniel Keenan | Data Analyst</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    </head>
+
+    <body class="is-preload">
+		
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+				<header id="header" class="alt">
+					<h1>COVID-19 Sentiment Analysis</h1>
+					<h2>Exploring a subreddit devoted to COVID-19 vaccination myths</h2>
+					<p>In this project, I have performed some exploratory analysis into the sentiment of posts made in 
+                        the 'r/VaccineMyths' subreddit.In this project, I have explored a dataset relating to video games and their score metrics.</p>
+                         <p>November 2021</p>
+				</header>
+
+			<!-- Main -->
+				<div id="main">
+
+					<!-- Content -->
+						<section id="content" class="main">
+        <h3>Import statements:</h3>
+        <pre><code>        import pandas as pd
+        import numpy as np
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        from wordcloud import WordCloud, STOPWORDS</code></pre>
+
+        <h3>Reading in the dataset:</h3>
+        <pre><code>        data = pd.read_csv('reddit_vm.csv')
+        data.head(10)</code></pre>
+        <img src = 'images/Covid_Sentiment_Project/read.png'>
+        <p></p>
+
+        <h3>Explore and clean the dataset:</h3>
+        <pre><code>        data.isna().sum()</code></pre>
+        <img src = 'images/Covid_Sentiment_Project/isna.png'>
+        <p></p>
+
+        <pre><code>        data.info()</code></pre>
+        <img src = 'images/Covid_Sentiment_Project/info.png'>
+        <p></p>
+
+        <pre><code>        data = data.dropna()</code></pre>
+
+        <pre><code>        data.describe()</code></pre>
+        <img src = 'images/Covid_Sentiment_Project/describe.png'>
+        <p></p>
+
+        <h3>Determining Positive, Negative, and Neutral classes:</h3>
+        <pre><code>        score_mean = round(data['score'].mean())        </code></pre>
+
+        <pre><code>        a = []
+
+        for i in data['score']:
+            if i < score_mean:
+                a.append(0)
+            if i == score_mean:
+                a.append(1)
+            if i > score_mean:
+                a.append(2)</code></pre>
+
+        <h3>Visualising the Sentiment Analysis:</h3>
+        <pre><code>        plt.figure(figsize=(10,7))
+        sns.countplot(a)
+        plt.title("Sentiment Analysis of COVID Vaccine based on 'r/VaccineMyths'", fontsize=20)
+        plt.xlabel('Sentiment', fontsize=14)
+        plt.ylabel('Score', fontsize=14)
+        plt.xticks([0,1,2],['Negative','Neutral','Positive'])
+        plt.show()</code></pre>
+        <img src = 'images/Covid_Sentiment_Project/sentiment_analysis.png'>
+        <p></p>
+
+        <h3>Generating a WordCloud:</h3>
+        <pre><code>        wc = WordCloud(width = 800, height = 800,stopwords=STOPWORDS, min_font_size=10, 
+                    background_color ='white').generate(''.join(i for i in data['title']))
+        plt.figure(figsize = (7, 7), facecolor = None) 
+        plt.imshow(wc) 
+        plt.axis("off") 
+        plt.tight_layout(pad=0)</code></pre>
+        <img src = 'images/Covid_Sentiment_Project/wc.png'>
+        <p></p>
+						</section>
+
+				</div>
+
+			<!-- Footer -->
+				<footer id="footer">
+				</footer>
+
+		</div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.scrollex.min.js"></script>
+            <script src="assets/js/jquery.scrolly.min.js"></script>
+            <script src="assets/js/browser.min.js"></script>
+            <script src="assets/js/breakpoints.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <script src="assets/js/main.js"></script>
+
+    </body>
+</html>

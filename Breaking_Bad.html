@@ -1,0 +1,242 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <title>Daniel Keenan | Data Analyst</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    </head>
+
+    <body class="is-preload">
+		
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+				<header id="header" class="alt">
+					<h1>Breaking Bad Transcript Project</h1>
+					<h2>Scraping episode transcripts from Breaking Bad, processing the data, and performing EDA</h2>
+					<p>In this project, I have performed some web scraping in order to get the episode transcripts from Breaking Bad, and then
+                        I have performed some Exploratory Data Analysis of the transcript data to provide insight into the characters and their importance.</p>
+                         <p>December 2021</p>
+				</header>
+
+			<!-- Main -->
+				<div id="main">
+
+					<!-- Content -->
+						<section id="content" class="main">
+        <h3>Import statements:</h3>
+        <pre><code>        from bs4 import BeautifulSoup
+            import requests
+            import pandas as pd
+            import re
+            from textblob import TextBlob
+            from tqdm.notebook import tqdm
+            import numpy as np
+            import seaborn as sns
+            import matplotlib.pyplot as plt
+            %matplotlib inline 
+        </code></pre>
+				
+        <h3>Getting the link to each page on the episode transcripts list:</h3>
+        <pre><code>        html_page1 = requests.get('https://transcripts.foreverdreaming.org/viewforum.php?f=165')
+        html_page2 = requests.get('https://transcripts.foreverdreaming.org/viewforum.php?f=165&start=25')
+        html_page3 = requests.get('https://transcripts.foreverdreaming.org/viewforum.php?f=165&start=50')</code></pre>
+    
+        <h3>Scraping the content of each page using BeautifulSoup:</h3>
+        <pre><code>        soup1 = BeautifulSoup(html_page1.content, 'html.parser')
+        soup2 = BeautifulSoup(html_page2.content, 'html.parser')
+        soup3 = BeautifulSoup(html_page3.content, 'html.parser')</code></pre>
+        
+        <h3>Creating empty lists to store relevant content:</h3>
+        <pre><code>        ep_links = []
+        ep_titles = []</code></pre>
+    
+        <h3>Collecting the episode titles and links to each episode transcript:</h3>
+        <pre><code>        ep_list1 = soup1.findAll('td', class_ = 'topic-titles row2')
+
+        for i in ep_list1[2:]:
+            ep_links.append('https://transcripts.foreverdreaming.org/'+i.find('h3')
+                    .find('a')['href'][2:])
+            ep_titles.append(i.text.strip())</code></pre>
+        <pre><code>        ep_list2 = soup2.findAll('td', class_ = 'topic-titles row2')
+
+        for i in ep_list2[2:]:
+            ep_links.append('https://transcripts.foreverdreaming.org/'+i.find('h3')
+                    .find('a')['href'][2:])
+            ep_titles.append(i.text.strip())</code></pre>
+        <pre><code>        ep_list3 = soup3.findAll('td', class_ = 'topic-titles row2')
+
+        for i in ep_list3[2:]:
+            ep_links.append('https://transcripts.foreverdreaming.org/'+i.find('h3')
+                    .find('a')['href'][2:])
+            ep_titles.append(i.text.strip())</code></pre>
+        <img src = 'images/BreakingBad_Project/titles.png'>
+        <p></p>
+    
+        <h3>Getting each individual characters transcript stats per episode:</h3>
+        <pre><code>        season = []
+        episode = []
+        character = []
+        line = []
+        
+        for i, link in enumerate(ep_links):
+            html_page = requests.get(ep_links[i])
+            soup = BeautifulSoup(html_page.content, 'html.parser')
+            for j in soup.find('div', class_ = 'postbody').findAll('p'):
+                if 'Walter' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Walter')
+                    line.append(j.text[8:])
+                elif 'Skyler' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Skyler')
+                    line.append(j.text[8:])
+                elif 'Marie' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Marie')
+                    line.append(j.text[7:])
+                elif 'Hank' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Hank')
+                    line.append(j.text[6:])
+                elif 'Jesse' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Jesse')
+                    line.append(j.text[7:])
+                elif 'Steve' in j.text:
+                    season.append(ep_titles[i][:1])
+                    episode.append(ep_titles[i][2:][:3])
+                    character.append('Steve')
+                    line.append(j.text[7:])</code></pre>
+    
+        <h3>Putting the lists into a dataframe:</h3>
+        <pre><code>        df = pd.DataFrame()
+        df['Season'] = season
+        df['Episode'] = episode
+        df['Character'] = character
+        df['Line'] = line
+        df.head()</code></pre>
+        <img src = 'images/BreakingBad_Project/character_stats.png'>
+        <p></p>
+
+        <h3>Dropping the last 3 seasons:</h3>
+        <pre><code>        df.drop(df[(df['Season'] == '3')].index, inplace=True)
+        df.drop(df[(df['Season'] == '4')].index, inplace=True)
+        df.drop(df[(df['Season'] == '5')].index, inplace=True)</code></pre>
+        <img src = 'images/BreakingBad_Project/fixed_character_stats.png'>
+        <p></p>
+
+        <h3>Exploring the data:</h3>
+        <pre><code>        df.shape</code></pre>
+        
+        <img src='images/BreakingBad_Project/shape.png'>
+        <p></p>
+
+        <pre><code>        df.info()</code></pre>
+        <img src='images/BreakingBad_Project/info.png'>
+        <p></p>
+        
+        <pre><code>        df[df.duplicated()]</code></pre>
+        <img src='images/BreakingBad_Project/dupe.png'>
+        <p></p>
+
+        <pre><code>        df.isna().sum()</code></pre>
+        <img src='images/BreakingBad_Project/isna.png'>
+        <p></p>
+    
+        <h3>Removing motions from the line text:</h3>
+        <pre><code>        df[df['Line'].str.contains('\([^)]*\)')]</code></pre>
+        <img src='images/BreakingBad_Project/motion1.png'>
+        <p></p>
+
+        <pre><code>        df['Motion'] = df['Line'].apply(lambda x: re.findall(r'\([^)]*\)', x))
+        df['Line'] = df['Line'].apply(lambda x: re.sub(r'\([^)]*\)', '', x))
+        df[df['Line'].str.contains('\([^)]*\)')]</code></pre>
+        <img src='images/BreakingBad_Project/motion2.png'>
+        <p></p>
+    
+        <h3>Adding polarity and subjectivity to the dataset:</h3>
+        <pre><code>        tqdm.pandas()
+
+        df['Polarity'] = df['Line'].progress_apply(lambda x: TextBlob(x).sentiment[0])
+        df['Subjectivity'] = df['Line'].progress_apply(lambda x: TextBlob(x).sentiment[1])</code></pre>
+        <img src='images/BreakingBad_Project/polsub.png'>
+        <p></p>
+
+        <h3>Line Count by Season:</h3>
+        <pre><code>        df2 = pd.DataFrame(df.groupby('Season').size(), columns=['Line_Count'])</code></pre>
+
+        <pre><code>        plt.figure(figsize = (10, 6)) 
+        c = ['yellow', 'royalblue']
+        plt.bar(df2.index, df2['Line_Count'], color=c) 
+        plt.title('Total Lines per Season', size = 30)
+        plt.xlabel('Season', size = 20) 
+        plt.xticks(fontsize = 16) 
+        plt.ylabel('Number of Lines', size = 20) 
+        plt.yticks(fontsize = 16) 
+        plt.show()</code></pre>
+        <img src='images/BreakingBad_Project/lines_per_season.png'>
+        <p></p>
+
+        <pre><code>        df3 = pd.DataFrame(df.groupby('Character').size(), columns=['Line_Count'])</code></pre>
+
+        <pre><code>        plt.figure(figsize = (10, 6)) 
+        c = ['yellow', 'royalblue', 'green', 'darkviolet', 'deeppink', 'lightblue']
+        plt.bar(df3.index, df3['Line_Count'], color=c) 
+        plt.title('Total Lines per Main Character', size = 30) 
+        plt.xlabel('Character', size = 20) 
+        plt.xticks(fontsize = 16) 
+        plt.ylabel('Number of Lines', size = 20) 
+        plt.yticks(fontsize = 16) 
+        plt.show() </code></pre>
+        <img src='images/BreakingBad_Project/lines_per_character.png'>
+        <p></p>
+
+        <pre><code>        df4 = pd.DataFrame(df.groupby(['Season', 'Character']).size(), columns=['Line_Count'])</code></pre>
+
+        <pre><code>        df4.unstack(0).plot.barh(figsize=(10,6))
+        plt.title('Total Lines per Season per Character', size = 30)
+        plt.xlabel('Line Count', size = 20)
+        plt.xticks(fontsize = 16)
+        plt.ylabel('Character', size = 20)
+        plt.yticks(fontsize = 16)
+        plt.legend(['Season 1','Season 2'],loc='lower right')
+        plt.show()</code></pre>
+        <img src='images/BreakingBad_Project/lines_per_season_per_character.png'>
+        <p></p>
+
+        </section>
+
+				</div>
+            
+                
+			<!-- Footer -->
+				<footer id="footer">
+				</footer>
+
+		</div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.scrollex.min.js"></script>
+            <script src="assets/js/jquery.scrolly.min.js"></script>
+            <script src="assets/js/browser.min.js"></script>
+            <script src="assets/js/breakpoints.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <script src="assets/js/main.js"></script>
+
+    </body>
+</html>

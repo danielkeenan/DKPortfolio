@@ -1,0 +1,6 @@
+incase you fuck it up and forget how to push to git
+
+
+git add .
+git commit -m message
+git push -f origin main

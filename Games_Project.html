@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <title>Daniel Keenan | Data Analyst</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    </head>
+
+    <body class="is-preload">
+		
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+				<header id="header" class="alt">
+					<h1>Video Games Analysis</h1>
+					<h2>Exploring a Dataset of Video Games and their Rankings</h2>
+					<p>In this project, I have explored a dataset relating to video games and their score metrics.</p>
+                         <p>October 2021</p>
+				</header>
+
+			<!-- Main -->
+				<div id="main">
+
+					<!-- Content -->
+						<section id="content" class="main">
+                    <h3>Import statements:</h3>
+        <pre><code>        import pandas as pd
+        import numpy as np
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+        import datetime</code></pre>
+        <p></p>
+        
+        <h3>Reading in the dataset</h3>
+        <p>The dataset is read in from a CSV file.</p>
+        <pre><code>        data = pd.read_csv('all_games.csv')</code></pre>
+        <img src='images/Games_Project/read.png'>
+        <p></p>
+        
+        <h3>Exploring the data</h3>
+        <p>The dataset is explored, checking its shape, datatypes, and checking for duplicated rows.</p>
+        <pre><code>        data.shape</code></pre>
+        <img src='images/Games_Project/shape.png'>   
+        <p></p>
+
+        <pre><code>        data.info()</code></pre>
+        <img src='images/Games_Project/info.png'>
+        <p></p>
+
+        <pre><code>        data[data.duplicated()]</code></pre>
+        <img src='images/Games_Project/nodupe.png'>
+        <p></p>
+        
+        <h3>Checking for and dealing with null data</h3>
+        <p>Looking for null data using a heatmap and the 'isnull()' command, and then dealing with it by dropping the 'summary' column.</p>
+        <p>Also removing rows where the meta_score is 'tbd', as this is essentially missing data</p>
+        <pre><code>        sns.heatmap(data.isnull())</code></pre>
+        <img src='images/Games_Project/heatmap.png'>
+        <p></p>
+
+        <pre><code>        data.isnull().sum()</code></pre>
+
+        <pre><code>        data[data['summary'].isnull()]</code></pre>
+
+        <pre><code>        data = data.drop('summary', axis=1)
+        data</code></pre>
+        <img src='images/Games_Project/nulls.png'>
+        <p></p>
+
+        <pre><code>        data = data.drop(data[data['user_review']=='tbd'].index)
+        data</code></pre>
+
+        <pre><code>        data[data['meta_score']=='tbd']</code></pre>
+        <p></p>
+    
+        <h3>Top 10 Video Games by Meta Score</h3>
+        <p>Finding the top 10 video games based on high meta_score values, displayed using a barplot.</p>
+        <pre><code>        top_meta_score = data.sort_values(['meta_score'], ascending = False)
+        top_meta_score[['name','meta_score']][:10]</code></pre>
+        <img src='images/Games_Project/top_meta.png'>
+        <p></p>
+
+        <pre><code>        sns.set(style='darkgrid', color_codes=True)
+
+        fig, ax = plt.subplots(figsize=(10,5))
+        sns.barplot(x=top_meta_score['meta_score'][:10], y=top_meta_score['name'][:10], orient = 'h', 
+            palette='flare')
+        plt.xlim(95,100)
+        plt.title('Top 10 Games by Meta Score', fontsize=16)
+        plt.xlabel('Meta Score', fontsize=14)
+        plt.ylabel('Name', fontsize=14)</code></pre>
+        <img src='images/Games_Project/top_meta_vis.png'>
+        <p></p>
+        
+        <h3>Distribution of Meta Scores</h3>
+        <p>Visualising the distribution of meta scores using a histogram.</p>
+        <pre><code>        fig, ax = plt.subplots(figsize=(10,5))
+        plt.hist(x=data['meta_score'], bins=33, facecolor='#5bd487', edgecolor='#139c44')
+        plt.title('Distribution of Meta Scores', fontsize=16)
+        plt.xlabel('Distribution', fontsize=14)
+        plt.ylabel('Frequency', fontsize=14)
+        plt.show()</code></pre>
+        <img src='images/Games_Project/meta_dist.png'>
+        <p></p>
+    
+        <h3>Top 10 Video Games by User Review</h3>
+        <p>Finding the top 10 video games based on high user_review values, displayed using a barplot.</p>
+        <pre><code>        data['user_review'] = data['user_review'].astype(np.float)</code></pre>
+        <pre><code>        top_user_score = data.sort_values(['user_review'], ascending=False)
+        top_user_score[['name','user_review']][:10]</code></pre>
+        <img src='images/Games_Project/top_user.png'>
+        <p></p>
+
+        <pre><code>        fig, ax = plt.subplots(figsize=(10,5))
+        sns.barplot(x=top_user_score['user_review'][:10], y=top_user_score['name'][:10], orient='h', 
+            palette='crest')
+        plt.xlim(9.5, 9.8)
+        plt.title('Top 10 Games by User Review', fontsize=16)
+        plt.xlabel('User Review Score', fontsize=14)
+        plt.ylabel('Name', fontsize=14)</pre></code>
+        <img src='images/Games_Project/top_user_vis.png'>
+        <p></p>
+    
+        <h3>Distribution of User Review Scores</h3>
+        <p>Visualising the distribution of user_reviews scores using a histogram.</p>
+        <pre><code>        fig, ax = plt.subplots(figsize=(10,5))
+        plt.hist(x=data['user_review'], bins=33, facecolor='#5bd487', edgecolor='#139c44')
+        plt.title('Distribution of User Reviews', fontsize=16)
+        plt.xlabel('Distribution', fontsize=14)
+        plt.ylabel('Frequency', fontsize=14)
+        plt.show()</code></pre>
+        <img src='images/Games_Project/user_dist.png'>
+        <p></p>
+    
+        <h3>Number of Video Games by Platform</h3>
+        <p>Finding the number of games released on each platform, visualised using a countplot.</p>
+        <pre><code>        data['platform'].value_counts()</code></pre>
+        <img src='images/Games_Project/num_platform.png'>
+        <p></p>
+
+        <pre><code>        fig, ax = plt.subplots(figsize=(15,10))
+        sns.countplot(x=data['platform'], order=data['platform'].value_counts().index, palette='pastel')
+        plt.xticks(rotation=90)
+        plt.title('Number of Games by Platform',fontsize=16)
+        plt.xlabel('Platform',fontsize=14)
+        plt.ylabel('Count',fontsize=14)
+        
+        for p in ax.patches:
+            x = p.get_x() + p.get_width() - 0.7
+            y = p.get_y() + p.get_height() + 40
+            value = '{}'.format(p.get_height())
+            ax.text(x, y, value, fontsize=12)</code></pre>
+        <img src='images/Games_Project/num_platform_vis.png'>
+        <p></p>
+    
+        <h3>Number of Video Games by Release Year</h3>
+        <p>Finding the number of games released in each year, visualised using a countplot.</p>
+        <pre><code>        data['release_year'] = pd.DatetimeIndex(data['release_date']).year
+        data</code></pre>
+        <img src='images/Games_Project/release_year.png'>
+        <p></p>
+
+        <pre><code>        fig, ax = plt.subplots(figsize=(15,10))
+        sns.countplot(y=data['release_year'], order=data['release_year'].value_counts().index, orient='h', 
+            palette='pastel')
+        plt.title('Number of Games by Year', fontsize=16)
+        plt.xlabel('Count', fontsize=14)
+        plt.ylabel('Release Year', fontsize=14)
+        
+        for p in ax.patches:
+            x = p.get_x() + p.get_width() + 2
+            y = p.get_y() + p.get_height() - 0.2
+            value = '{}'.format(p.get_width())
+            ax.text(x, y, value, fontsize=12)</code></pre>
+        <img src='images/Games_Project/num_release_year_vis.png'>
+        <p></p>
+    
+        <h3>Number of Video Games by Release Month</h3>
+        <p>Finding the number of games released in each month, visualised using a countplot.</p>
+        <pre><code>        data['release_month'] = pd.DatetimeIndex(data['release_date']).month_name()
+        data</code></pre>
+        <img src='images/Games_Project/release_month.png'>
+        <p></p>
+
+        <pre><code>        from collections import Counter
+        count = Counter(data['release_month'])
+        count = count.most_common()
+        count</code></pre>
+
+        <pre><code>        by_month = pd.DataFrame(count, columns=['Month', 'Count'])
+        by_month</code></pre>
+        <img src='images/Games_Project/num_release_month.png'>
+        <p></p>
+
+        <pre><code>        fig, ax = plt.subplots(figsize=(14,5))
+        sns.barplot(x=by_month['Month'], y=by_month['Count'], palette='pastel')
+        plt.title('Count of Games by Release Month',fontsize=16)
+        plt.xlabel('Release Month',fontsize=14)
+        plt.ylabel('Count',fontsize=14)
+        
+        for p in ax.patches:
+            x = p.get_x() + p.get_width() - 0.5
+            y = p.get_y() + p.get_height() / 2
+            value = '{:.0f}'.format(p.get_height())
+            ax.text(x, y, value, fontsize=22, fontweight='bold', rotation=90, color='gray')</code></pre>
+        <img src='images/Games_Project/num_release_month_vis.png'>
+		<p></p>
+						</section>
+
+				</div>
+
+			<!-- Footer -->
+				<footer id="footer">
+				</footer>
+
+		</div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.scrollex.min.js"></script>
+            <script src="assets/js/jquery.scrolly.min.js"></script>
+            <script src="assets/js/browser.min.js"></script>
+            <script src="assets/js/breakpoints.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <script src="assets/js/main.js"></script>
+
+    </body>
+</html>

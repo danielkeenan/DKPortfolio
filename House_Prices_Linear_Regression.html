@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<!--
+	Stellar by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+    <head>
+        <title>Daniel Keenan | Data Analyst</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    </head>
+
+    <body class="is-preload">
+		
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+				<header id="header" class="alt">
+					<h1>House Price Analysis & Linear Regression</h1>
+					<h2>Exploring a dataset on House Prices and Using Linear Regression to predict the top features</h2>
+					<p>In this project, I have performed data cleaning and exploratory analysis on a dataset relating to house prices from Kings County, Washington from 2014-2015. 
+                        I have then using multiple linear regression models in an attempt to discover which features impact the price of the property the most.
+                    </p>
+                         <p>January 2021</p>
+				</header>
+
+			<!-- Main -->
+				<div id="main">
+
+					<!-- Content -->
+						<section id="content" class="main">
+        <h3>Import statements:</h3>
+        <pre><code>        import pandas as pd
+        from datetime import datetime
+        import seaborn as sns
+        import matplotlib.pyplot as plt
+        %matplotlib inline
+        
+        import statsmodels.api as sm
+        import scipy.stats as stats
+        from statsmodels.formula.api import ols
+        from sklearn.metrics import mean_squared_error
+        from sklearn.linear_model import LinearRegression
+        from sklearn.model_selection import train_test_split
+        from scipy.stats import norm
+        from statsmodels.stats.outliers_influence import variance_inflation_factor
+        </code></pre>
+		
+        <h3>Reading in the dataset:</h3>
+        <pre><code>        df = pd.read_csv('kc_house_data.csv')
+        df.head()        
+        </code></pre>
+        <img src = 'images/House_Price_Linear_Regression/read.png'>
+
+        <h3>Exploring and cleaning the dataset:</h3>
+        <pre><code>        df.info()        
+        </code></pre>
+        <img src = 'images/House_Price_Linear_Regression/info.png'>
+        
+
+        <pre><code>        <i># Looping through each column and printing the top 5 values of each</i>
+        for col in df.columns:
+        try:
+            print(col, df[col].value_counts()[:5])
+        except:
+            print(col, df[col].value_counts())
+        print('\n')
+        </code></pre>
+
+        <pre><code>        del df['id']
+        </code></pre>
+
+        <pre><code>        df['date'] = pd.to_datetime(df['date'])
+        df['sale_year'] = df['date'].dt.year
+        df['sale_month'] = df['date'].dt.month
+        df['sale_DoW'] = df['date'].dt.dayofweek
+        df['date'] = df['date'].astype(object)
+        </code></pre>
+
+        <pre><code>        df.isna().sum()
+        </code></pre>
+        <img src = 'images/House_Price_Linear_Regression/isna.png'>
+        
+        <pre><code>        print(f"Percentage Missing: {round(df['waterfront'].isna().sum()/len(df)*100,3)}%")
+        print(f"Percentage Missing: {round(df['view'].isna().sum()/len(df)*100,3)}%")
+        print(f"Percentage Missing: {round(df['yr_renovated'].isna().sum()/len(df)*100,3)}%")
+        </code></pre>
+        <img src = 'images/House_Price_Linear_Regression/perc missing.png'>
+
+        <pre><code>        del df['waterfront']
+        del df['yr_renovated']
+
+        df.dropna(subset=['view'], inplace=True)
+        </code></pre>
+
+        df['sqft_basement'].value_counts()
+
+
+
+        </section>
+
+				</div>
+            
+                
+			<!-- Footer -->
+				<footer id="footer">
+				</footer>
+
+		</div>
+
+        <!-- Scripts -->
+            <script src="assets/js/jquery.min.js"></script>
+            <script src="assets/js/jquery.scrollex.min.js"></script>
+            <script src="assets/js/jquery.scrolly.min.js"></script>
+            <script src="assets/js/browser.min.js"></script>
+            <script src="assets/js/breakpoints.min.js"></script>
+            <script src="assets/js/util.js"></script>
+            <script src="assets/js/main.js"></script>
+
+    </body>
+</html>
